@@ -97,7 +97,6 @@ class HomeScreen extends ConsumerWidget {
     final weeklyStreaksAsync = ref.watch(weeklyStreaksProvider);
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
       appBar: AppBar(
         title: Text(
           'Kokpit',
@@ -176,72 +175,75 @@ class HomeScreen extends ConsumerWidget {
                   orElse: () => 0,
                 );
 
-                return Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Header with counter and hide completed toggle
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'Dzisiejsze Zadania (${totalCount - completedCount}/$totalCount)',
-                              style: theme.textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
+                return Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Header with counter and hide completed toggle
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                'Dzisiejsze Zadania (${totalCount - completedCount}/$totalCount)',
+                                style: theme.textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Ukryj zrobione',
-                                style: theme.textTheme.labelSmall,
-                              ),
-                              const SizedBox(width: 4),
-                              Switch(
-                                value: hideCompleted,
-                                onChanged: (value) {
-                                  ref
-                                          .read(
-                                            hideCompletedTasksProvider.notifier,
-                                          )
-                                          .state =
-                                      value;
-                                },
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-
-                      if (tasks.isEmpty)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: Center(
-                            child: Text(
-                              hideCompleted && totalCount > 0
-                                  ? 'Wszystkie zadania ukończone!'
-                                  : 'Brak zadań na dzisiaj',
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                color: theme.colorScheme.secondary,
-                              ),
+                            Row(
+                              children: [
+                                Text(
+                                  'Ukryj zrobione',
+                                  style: theme.textTheme.labelSmall,
+                                ),
+                                const SizedBox(width: 4),
+                                Switch(
+                                  value: hideCompleted,
+                                  onChanged: (value) {
+                                    ref
+                                            .read(
+                                              hideCompletedTasksProvider
+                                                  .notifier,
+                                            )
+                                            .state =
+                                        value;
+                                  },
+                                ),
+                              ],
                             ),
-                          ),
-                        )
-                      else
-                        Column(
-                          children: List.generate(tasks.length, (index) {
-                            final task = tasks[index];
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 8),
-                              child: CompactTaskTile(task: task, ref: ref),
-                            );
-                          }),
+                          ],
                         ),
-                      const SizedBox(height: 16),
-                    ],
+                        const SizedBox(height: 12),
+
+                        if (tasks.isEmpty)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            child: Center(
+                              child: Text(
+                                hideCompleted && totalCount > 0
+                                    ? 'Wszystkie zadania ukończone!'
+                                    : 'Brak zadań na dzisiaj',
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: theme.colorScheme.secondary,
+                                ),
+                              ),
+                            ),
+                          )
+                        else
+                          Column(
+                            children: List.generate(tasks.length, (index) {
+                              final task = tasks[index];
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: CompactTaskTile(task: task, ref: ref),
+                              );
+                            }),
+                          ),
+                        const SizedBox(height: 16),
+                      ],
+                    ),
                   ),
                 );
               },
