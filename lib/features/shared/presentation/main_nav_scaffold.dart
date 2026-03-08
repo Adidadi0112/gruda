@@ -26,14 +26,6 @@ class _MainNavScaffoldState extends State<MainNavScaffold> {
   /// Maps screen index to bottom nav index
   /// Screen: 0=Home, 1=Meals, 2=Settings
   /// NavBar: 0=Home, 1=Meals, 2=Settings
-  int _getNavIndex(int screenIndex) {
-    return screenIndex;
-  }
-
-  /// Maps bottom nav index to screen index
-  int _getScreenIndex(int navIndex) {
-    return navIndex;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +34,9 @@ class _MainNavScaffoldState extends State<MainNavScaffold> {
     return Scaffold(
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _getNavIndex(_selectedIndex),
+        currentIndex: _selectedIndex,
         onTap: (index) {
-          setState(() => _selectedIndex = _getScreenIndex(index));
+          setState(() => _selectedIndex = index);
         },
         type: BottomNavigationBarType.fixed,
         backgroundColor: theme.colorScheme.surface,
