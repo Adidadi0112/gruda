@@ -18,8 +18,12 @@ class MainNavScaffold extends StatefulWidget {
 class _MainNavScaffoldState extends State<MainNavScaffold> {
   int _selectedIndex = 0;
 
-  final List<Widget> _screens = [
-    const HomeScreen(),
+  void _onNavigate(int index) {
+    setState(() => _selectedIndex = index);
+  }
+
+  late final List<Widget> _screens = [
+    HomeScreen(onNavigate: _onNavigate),
     const MealPlannerScreen(),
     const ShoppingListScreen(),
     const SettingsScreen(),
@@ -32,8 +36,16 @@ class _MainNavScaffoldState extends State<MainNavScaffold> {
     return Scaffold(
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: (index) => setState(() => _selectedIndex = index),
+        currentIndex: _selectedIndex == 2 ? 0 : _selectedIndex,
+        onTap: (index) {
+          // Map bottom nav index to screen index
+          int screenIndex = index;
+          if (index == 2) {
+            // Settings is at index 3 in screens, but index 2 in nav bar
+            screenIndex = 3;
+          }
+          setState(() => _selectedIndex = screenIndex);
+        },
         type: BottomNavigationBarType.fixed,
         backgroundColor: theme.colorScheme.surface,
         selectedItemColor: theme.colorScheme.primary,
@@ -46,10 +58,6 @@ class _MainNavScaffoldState extends State<MainNavScaffold> {
           BottomNavigationBarItem(
             icon: Icon(LucideIcons.utensils),
             label: 'Posiłki',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(LucideIcons.shoppingCart),
-            label: 'Zakupy',
           ),
           BottomNavigationBarItem(
             icon: Icon(LucideIcons.settings),

@@ -76,7 +76,9 @@ class CompactTaskTile extends StatelessWidget {
 
 /// HomeScreen - Main Habit Tracker screen with dynamic categories.
 class HomeScreen extends ConsumerWidget {
-  const HomeScreen({super.key});
+  final Function(int)? onNavigate;
+
+  const HomeScreen({super.key, this.onNavigate});
 
   void _showAddHabitModal(BuildContext context) {
     showModalBottomSheet(
@@ -98,14 +100,18 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Kokpit',
-          style: theme.textTheme.headlineSmall?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        title: Text('Kokpit'),
         centerTitle: true,
         elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(LucideIcons.shoppingCart),
+            onPressed: () {
+              onNavigate?.call(2); // Navigate to Shopping List (index 2)
+            },
+            tooltip: 'Lista Zakupów',
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
