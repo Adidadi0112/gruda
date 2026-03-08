@@ -3,11 +3,10 @@ import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../home/presentation/screens/home_screen.dart';
 import '../../meal/presentation/screens/meal_planner_screen.dart';
-import '../../meal/presentation/screens/shopping_list_screen.dart';
 import '../../settings/presentation/screens/settings_screen.dart';
 
 /// MainNavScaffold - The main app scaffold with BottomNavigationBar.
-/// Routes between Dashboard, Meal Planner, Shopping List, and Settings.
+/// Routes between Dashboard, Meal Planner, and Settings.
 class MainNavScaffold extends StatefulWidget {
   const MainNavScaffold({super.key});
 
@@ -18,16 +17,23 @@ class MainNavScaffold extends StatefulWidget {
 class _MainNavScaffoldState extends State<MainNavScaffold> {
   int _selectedIndex = 0;
 
-  void _onNavigate(int index) {
-    setState(() => _selectedIndex = index);
-  }
-
   late final List<Widget> _screens = [
-    HomeScreen(onNavigate: _onNavigate),
+    const HomeScreen(),
     const MealPlannerScreen(),
-    const ShoppingListScreen(),
     const SettingsScreen(),
   ];
+
+  /// Maps screen index to bottom nav index
+  /// Screen: 0=Home, 1=Meals, 2=Settings
+  /// NavBar: 0=Home, 1=Meals, 2=Settings
+  int _getNavIndex(int screenIndex) {
+    return screenIndex;
+  }
+
+  /// Maps bottom nav index to screen index
+  int _getScreenIndex(int navIndex) {
+    return navIndex;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,15 +42,9 @@ class _MainNavScaffoldState extends State<MainNavScaffold> {
     return Scaffold(
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex == 2 ? 0 : _selectedIndex,
+        currentIndex: _getNavIndex(_selectedIndex),
         onTap: (index) {
-          // Map bottom nav index to screen index
-          int screenIndex = index;
-          if (index == 2) {
-            // Settings is at index 3 in screens, but index 2 in nav bar
-            screenIndex = 3;
-          }
-          setState(() => _selectedIndex = screenIndex);
+          setState(() => _selectedIndex = _getScreenIndex(index));
         },
         type: BottomNavigationBarType.fixed,
         backgroundColor: theme.colorScheme.surface,

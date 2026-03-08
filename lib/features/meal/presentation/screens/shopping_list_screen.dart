@@ -8,11 +8,102 @@ import '../meal_provider.dart';
 
 /// ShoppingListScreen - Displays the paginated shopping list by meal prep cycles.
 /// Users can navigate between 3-day prep cycles, toggle items as bought/not bought, and view progress.
-class ShoppingListScreen extends ConsumerWidget {
+/// Also allows manual addition of shopping items.
+class ShoppingListScreen extends ConsumerStatefulWidget {
   const ShoppingListScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ShoppingListScreen> createState() => _ShoppingListScreenState();
+}
+
+class _ShoppingListScreenState extends ConsumerState<ShoppingListScreen> {
+  late TextEditingController _itemController;
+
+  @override
+  void initState() {
+    super.initState();
+    _itemController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _itemController.dispose();
+    super.dispose();
+  }
+
+  void _showAddItemDialog(BuildContext context) {
+    _itemController.clear();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Dodaj produkt'),
+          content: TextField(
+            controller: _itemController,
+            decoration: InputDecoration(
+              labelText: 'Nazwa produktu',
+              hintText: 'np. Mleko, Chleb, Pomidory',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            textInputAction: TextInputAction.done,
+            onSubmitted: (_) => _addManualItem(context),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Anuluj'),
+            ),
+            FilledButton(
+              onPressed: () => _addManualItem(context),
+              child: const Text('Dodaj'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _addManualItem(BuildContext context) async {
+    final itemTitle = _itemController.text.trim();
+    if (itemTitle.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Podaj nazwę produktu')));
+      return;
+    }
+
+    try {
+      // Get the current selected cycle
+      final cycles = ref.read(shoppingCyclesProviderProvider).valueOrNull ?? [];
+      final selectedIndex = ref.read(selectedCycleIndexProvider);
+      final validIndex = selectedIndex.clamp(0, cycles.length - 1);
+      final currentCycle = cycles[validIndex];
+
+      await ref.read(
+        addShoppingItemProvider(
+          title: itemTitle,
+          linkedPrepGroupId: currentCycle.prepGroupId,
+        ).future,
+      );
+      if (context.mounted) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Produkt dodany do listy')),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Błąd: $e')));
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final cyclesAsync = ref.watch(shoppingCyclesProviderProvider);
     final selectedIndex = ref.watch(selectedCycleIndexProvider);
@@ -77,6 +168,11 @@ class ShoppingListScreen extends ConsumerWidget {
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stack) => Center(child: Text('Błąd: $error')),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _showAddItemDialog(context),
+        tooltip: 'Dodaj produkt',
+        child: const Icon(LucideIcons.plus),
       ),
     );
   }

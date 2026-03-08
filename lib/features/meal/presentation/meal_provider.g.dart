@@ -1043,6 +1043,164 @@ final shoppingCyclesProviderProvider =
 // ignore: unused_element
 typedef ShoppingCyclesProviderRef =
     AutoDisposeStreamProviderRef<List<ShoppingCycle>>;
+String _$addShoppingItemHash() => r'76d86f82d14e29a91270d84eae75b3838dee1895';
+
+/// FutureProvider for manually adding a shopping item.
+///
+/// Copied from [addShoppingItem].
+@ProviderFor(addShoppingItem)
+const addShoppingItemProvider = AddShoppingItemFamily();
+
+/// FutureProvider for manually adding a shopping item.
+///
+/// Copied from [addShoppingItem].
+class AddShoppingItemFamily extends Family<AsyncValue<void>> {
+  /// FutureProvider for manually adding a shopping item.
+  ///
+  /// Copied from [addShoppingItem].
+  const AddShoppingItemFamily();
+
+  /// FutureProvider for manually adding a shopping item.
+  ///
+  /// Copied from [addShoppingItem].
+  AddShoppingItemProvider call({
+    required String title,
+    String? linkedPrepGroupId,
+  }) {
+    return AddShoppingItemProvider(
+      title: title,
+      linkedPrepGroupId: linkedPrepGroupId,
+    );
+  }
+
+  @override
+  AddShoppingItemProvider getProviderOverride(
+    covariant AddShoppingItemProvider provider,
+  ) {
+    return call(
+      title: provider.title,
+      linkedPrepGroupId: provider.linkedPrepGroupId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'addShoppingItemProvider';
+}
+
+/// FutureProvider for manually adding a shopping item.
+///
+/// Copied from [addShoppingItem].
+class AddShoppingItemProvider extends AutoDisposeFutureProvider<void> {
+  /// FutureProvider for manually adding a shopping item.
+  ///
+  /// Copied from [addShoppingItem].
+  AddShoppingItemProvider({required String title, String? linkedPrepGroupId})
+    : this._internal(
+        (ref) => addShoppingItem(
+          ref as AddShoppingItemRef,
+          title: title,
+          linkedPrepGroupId: linkedPrepGroupId,
+        ),
+        from: addShoppingItemProvider,
+        name: r'addShoppingItemProvider',
+        debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+            ? null
+            : _$addShoppingItemHash,
+        dependencies: AddShoppingItemFamily._dependencies,
+        allTransitiveDependencies:
+            AddShoppingItemFamily._allTransitiveDependencies,
+        title: title,
+        linkedPrepGroupId: linkedPrepGroupId,
+      );
+
+  AddShoppingItemProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.title,
+    required this.linkedPrepGroupId,
+  }) : super.internal();
+
+  final String title;
+  final String? linkedPrepGroupId;
+
+  @override
+  Override overrideWith(
+    FutureOr<void> Function(AddShoppingItemRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: AddShoppingItemProvider._internal(
+        (ref) => create(ref as AddShoppingItemRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        title: title,
+        linkedPrepGroupId: linkedPrepGroupId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<void> createElement() {
+    return _AddShoppingItemProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is AddShoppingItemProvider &&
+        other.title == title &&
+        other.linkedPrepGroupId == linkedPrepGroupId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, title.hashCode);
+    hash = _SystemHash.combine(hash, linkedPrepGroupId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+mixin AddShoppingItemRef on AutoDisposeFutureProviderRef<void> {
+  /// The parameter `title` of this provider.
+  String get title;
+
+  /// The parameter `linkedPrepGroupId` of this provider.
+  String? get linkedPrepGroupId;
+}
+
+class _AddShoppingItemProviderElement
+    extends AutoDisposeFutureProviderElement<void>
+    with AddShoppingItemRef {
+  _AddShoppingItemProviderElement(super.provider);
+
+  @override
+  String get title => (origin as AddShoppingItemProvider).title;
+  @override
+  String? get linkedPrepGroupId =>
+      (origin as AddShoppingItemProvider).linkedPrepGroupId;
+}
+
 String _$selectedCycleIndexHash() =>
     r'528aa51710905c334f50815d5a84fde2d879e1ee';
 

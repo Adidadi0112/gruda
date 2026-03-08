@@ -14,7 +14,13 @@ part 'habit_provider.g.dart';
 /// Provider for the HabitRepository instance.
 final habitRepositoryProvider = Provider<HabitRepository>((ref) {
   final supabase = ref.watch(supabaseProvider);
-  return HabitRepositoryImpl(supabase);
+  final profile = ref.watch(currentProfileProvider);
+
+  String getHouseholdId() {
+    return profile.valueOrNull?.householdId ?? '';
+  }
+
+  return HabitRepositoryImpl(supabase, getHouseholdId: getHouseholdId);
 });
 
 /// StreamProvider for all habits of the current user.

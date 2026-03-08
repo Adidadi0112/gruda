@@ -201,12 +201,6 @@ class _MealPrepWizardBottomSheetState
             title: const Text('3-dniowy Plan Zakupów'),
             centerTitle: true,
             elevation: 0,
-            actions: [
-              IconButton(
-                icon: const Icon(LucideIcons.x),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ],
           ),
           body: Column(
             children: [

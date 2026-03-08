@@ -367,3 +367,29 @@ class SelectedCycleIndex extends _$SelectedCycleIndex {
     if (state > 0) state--;
   }
 }
+
+/// FutureProvider for manually adding a shopping item.
+@riverpod
+Future<void> addShoppingItem(
+  AddShoppingItemRef ref, {
+  required String title,
+  String? linkedPrepGroupId,
+}) async {
+  print('[addShoppingItem] Called with title: $title');
+  try {
+    final shoppingRepo = ref.watch(shoppingRepositoryProvider);
+    await shoppingRepo.addShoppingItem(
+      title: title,
+      linkedPrepGroupId: linkedPrepGroupId,
+    );
+
+    // Refresh shopping cycles
+    ref.invalidate(shoppingCyclesProviderProvider);
+    ref.invalidate(shoppingListProviderProvider);
+
+    print('[addShoppingItem] ✅ Shopping item added successfully');
+  } catch (e) {
+    print('[addShoppingItem] ❌ Error: $e');
+    rethrow;
+  }
+}

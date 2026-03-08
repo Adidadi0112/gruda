@@ -17,53 +17,61 @@ class SettingsScreen extends ConsumerWidget {
         centerTitle: true,
         elevation: 0,
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
+      body: Column(
         children: [
-          // Profile Section
-          Card(
-            child: ListTile(
-              leading: const Icon(LucideIcons.user),
-              title: const Text('Profil'),
-              subtitle: const Text('Zarządzaj swoim profilem'),
-              trailing: const Icon(LucideIcons.chevronRight),
-              onTap: () {
-                // TODO: Navigate to profile screen
-              },
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                // Profile Section
+                Card(
+                  child: ListTile(
+                    leading: const Icon(LucideIcons.user),
+                    title: const Text('Profil'),
+                    subtitle: const Text('Zarządzaj swoim profilem'),
+                    trailing: const Icon(LucideIcons.chevronRight),
+                    onTap: () {
+                      // TODO: Navigate to profile screen
+                    },
+                  ),
+                ),
+                const SizedBox(height: 8),
+                // Household Section
+                Card(
+                  child: ListTile(
+                    leading: const Icon(LucideIcons.home),
+                    title: const Text('Gospodarstwo'),
+                    subtitle: const Text('Zarządzaj członkami gospodarstwa'),
+                    trailing: const Icon(LucideIcons.chevronRight),
+                    onTap: () {
+                      // TODO: Navigate to household management
+                    },
+                  ),
+                ),
+                const SizedBox(height: 8),
+                // About Section
+                Card(
+                  child: ListTile(
+                    leading: const Icon(LucideIcons.info),
+                    title: const Text('O aplikacji'),
+                    subtitle: const Text('Wersja 1.0.0'),
+                    trailing: const Icon(LucideIcons.chevronRight),
+                    onTap: () {
+                      // TODO: Show about dialog
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
-          const SizedBox(height: 8),
-          // Household Section
-          Card(
-            child: ListTile(
-              leading: const Icon(LucideIcons.home),
-              title: const Text('Gospodarstwo'),
-              subtitle: const Text('Zarządzaj członkami gospodarstwa'),
-              trailing: const Icon(LucideIcons.chevronRight),
-              onTap: () {
-                // TODO: Navigate to household management
-              },
-            ),
-          ),
-          const SizedBox(height: 8),
-          // About Section
-          Card(
-            child: ListTile(
-              leading: const Icon(LucideIcons.info),
-              title: const Text('O aplikacji'),
-              subtitle: const Text('Wersja 1.0.0'),
-              trailing: const Icon(LucideIcons.chevronRight),
-              onTap: () {
-                // TODO: Show about dialog
-              },
-            ),
-          ),
-          const Spacer(),
           // Sign Out Button
-          FilledButton.icon(
-            icon: const Icon(LucideIcons.logOut),
-            label: const Text('Wyloguj się'),
-            onPressed: () => _handleSignOut(context, ref),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: FilledButton.icon(
+              icon: const Icon(LucideIcons.logOut),
+              label: const Text('Wyloguj się'),
+              onPressed: () => _handleSignOut(context, ref),
+            ),
           ),
         ],
       ),

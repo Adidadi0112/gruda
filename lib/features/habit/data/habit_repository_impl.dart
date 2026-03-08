@@ -6,30 +6,46 @@ import 'habit_repository.dart';
 /// Concrete implementation of HabitRepository using Supabase.
 class HabitRepositoryImpl implements HabitRepository {
   final supabase.SupabaseClient _supabase;
+  final String Function()
+  getHouseholdId; // Callback to get household ID from Riverpod
 
-  HabitRepositoryImpl(this._supabase);
+  HabitRepositoryImpl(this._supabase, {required this.getHouseholdId});
 
   @override
   Stream<List<Habit>> getAllHabits() {
     final userId = _supabase.auth.currentUser?.id;
-    print('[getAllHabits] Fetching all habits for user: $userId');
+    final householdId = getHouseholdId();
+    print(
+      '[getAllHabits] Fetching all habits for user: $userId, householdId: $householdId',
+    );
 
-    if (userId == null) {
-      print('[getAllHabits] ❌ No user ID - returning empty stream');
+    if (userId == null || householdId.isEmpty) {
+      print(
+        '[getAllHabits] ❌ No user ID or household ID - returning empty stream',
+      );
       return Stream.value([]);
     }
 
+    // Fetch all habits for the household, then filter in code
     return _supabase
         .from('habits')
         .stream(primaryKey: ['id'])
-        .eq('owner_id', userId)
+        .eq('household_id', householdId)
         .order('created_at', ascending: false)
         .map((data) {
-          final habits = (data as List<dynamic>)
+          final allHabits = (data as List<dynamic>)
               .map((json) => _habitFromJson(json as Map<String, dynamic>))
               .toList();
-          print('[getAllHabits] ✅ Received ${habits.length} habits');
-          return habits;
+
+          // Filter: show user's own habits or any household habits
+          final filtered = allHabits.where((habit) {
+            return habit.userId == userId || habit.isHousehold;
+          }).toList();
+
+          print(
+            '[getAllHabits] ✅ Received ${filtered.length} habits (filtered from ${allHabits.length})',
+          );
+          return filtered;
         });
   }
 

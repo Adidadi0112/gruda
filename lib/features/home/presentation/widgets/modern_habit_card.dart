@@ -136,21 +136,9 @@ class CircularCompletionButton extends StatelessWidget {
       child: InkWell(
         onTap: onPressed,
         customBorder: CircleBorder(),
-        child: Container(
+        child: SizedBox(
           width: 48,
           height: 48,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: isCompleted
-                ? theme.colorScheme.primary.withValues(alpha: 0.2)
-                : theme.colorScheme.tertiary.withValues(alpha: 0.1),
-            border: Border.all(
-              color: isCompleted
-                  ? theme.colorScheme.primary
-                  : theme.colorScheme.tertiary,
-              width: 2,
-            ),
-          ),
           child: Icon(
             isCompleted ? LucideIcons.check : LucideIcons.circle,
             color: isCompleted

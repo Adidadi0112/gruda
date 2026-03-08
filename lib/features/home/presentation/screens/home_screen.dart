@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../habit/presentation/habit_provider.dart';
+import '../../../meal/presentation/screens/shopping_list_screen.dart';
 import '../../../task/domain/task_item.dart';
 import '../../../task/presentation/task_provider.dart';
 import '../widgets/add_habit_bottom_sheet.dart';
@@ -76,9 +77,7 @@ class CompactTaskTile extends StatelessWidget {
 
 /// HomeScreen - Main Habit Tracker screen with dynamic categories.
 class HomeScreen extends ConsumerWidget {
-  final Function(int)? onNavigate;
-
-  const HomeScreen({super.key, this.onNavigate});
+  const HomeScreen({super.key});
 
   void _showAddHabitModal(BuildContext context) {
     showModalBottomSheet(
@@ -107,7 +106,12 @@ class HomeScreen extends ConsumerWidget {
           IconButton(
             icon: const Icon(LucideIcons.shoppingCart),
             onPressed: () {
-              onNavigate?.call(2); // Navigate to Shopping List (index 2)
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ShoppingListScreen(),
+                ),
+              );
             },
             tooltip: 'Lista Zakupów',
           ),
