@@ -6,7 +6,7 @@ part of 'app_router.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appRouterHash() => r'a4a5f32c07a24dc75833863b45001ad49e1b46e5';
+String _$appRouterHash() => r'c46b670236c8b7f5e1a6d17dd3f2383e624167ce';
 
 /// Reactive GoRouter provider that watches auth state and profile changes
 ///

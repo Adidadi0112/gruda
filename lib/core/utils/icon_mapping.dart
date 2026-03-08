@@ -44,17 +44,17 @@ class IconMapping {
   /// Get a friendly display name for an icon key.
   static String getDisplayName(String iconKey) {
     final displayNames = {
-      'gym': 'Gym',
-      'book': 'Reading',
-      'water': 'Hydration',
-      'meds': 'Medication',
-      'clean': 'Cleaning',
-      'cook': 'Cooking',
-      'dog': 'Pet Care',
-      'plant': 'Plants',
-      'sleep': 'Sleep',
-      'finance': 'Finance',
+      'gym': 'Siłownia',
+      'book': 'Czytanie',
+      'water': 'Nawodnienie',
+      'meds': 'Leki',
+      'clean': 'Sprzątanie',
+      'cook': 'Gotowanie',
+      'dog': 'Opieka nad zwierzęciem',
+      'plant': 'Rośliny',
+      'sleep': 'Sen',
+      'finance': 'Finanse',
     };
-    return displayNames[iconKey] ?? 'Unknown';
+    return displayNames[iconKey] ?? 'Nieznane';
   }
 }

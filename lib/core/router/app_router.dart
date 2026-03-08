@@ -5,7 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../features/auth/presentation/auth_provider.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/household/presentation/screens/household_onboarding_screen.dart';
-import '../../features/home/presentation/screens/home_screen.dart';
+import '../../features/shared/presentation/main_nav_scaffold.dart';
 
 part 'app_router.g.dart';
 
@@ -93,7 +93,10 @@ GoRouter appRouter(AppRouterRef ref) {
         path: '/onboarding',
         builder: (context, state) => const HouseholdOnboardingScreen(),
       ),
-      GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
+      GoRoute(
+        path: '/home',
+        builder: (context, state) => const MainNavScaffold(),
+      ),
     ],
   );
 }

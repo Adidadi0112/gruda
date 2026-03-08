@@ -159,3 +159,39 @@ Future<void> toggleTask(
     rethrow;
   }
 }
+
+/// FutureProvider for updating a task.
+@riverpod
+Future<void> updateTask(UpdateTaskRef ref, TaskItem task) async {
+  print('[updateTask] Called for taskId: ${task.id}');
+  try {
+    final taskRepo = ref.watch(taskRepositoryProvider);
+    await taskRepo.updateTask(task);
+
+    // Refresh today's tasks
+    ref.invalidate(todayTasksProviderProvider);
+
+    print('[updateTask] ✅ Task updated successfully');
+  } catch (e) {
+    print('[updateTask] ❌ Error: $e');
+    rethrow;
+  }
+}
+
+/// FutureProvider for deleting a task.
+@riverpod
+Future<void> deleteTask(DeleteTaskRef ref, String taskId) async {
+  print('[deleteTask] Called for taskId: $taskId');
+  try {
+    final taskRepo = ref.watch(taskRepositoryProvider);
+    await taskRepo.deleteTask(taskId);
+
+    // Refresh today's tasks
+    ref.invalidate(todayTasksProviderProvider);
+
+    print('[deleteTask] ✅ Task deleted successfully');
+  } catch (e) {
+    print('[deleteTask] ❌ Error: $e');
+    rethrow;
+  }
+}

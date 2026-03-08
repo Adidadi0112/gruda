@@ -57,13 +57,13 @@ Stream<List<HabitItemState>> habitItemStates(HabitItemStatesRef ref) {
         return Stream.value(result);
       },
       loading: () => Stream.value([]),
-      error: (err, __) {
+      error: (err, _) {
         print('[habitItemStates] ❌ Error in todayLogsAsync: $err');
         return Stream.value([]);
       },
     ),
     loading: () => Stream.value([]),
-    error: (err, __) {
+    error: (err, _) {
       print('[habitItemStates] ❌ Error in habitsAsync: $err');
       return Stream.value([]);
     },
@@ -95,7 +95,7 @@ Stream<List<String>> availableHabitFilters(AvailableHabitFiltersRef ref) {
     data: (categories) =>
         Stream.value(['Wszystkie', 'Wspólne', 'Prywatne', ...categories]),
     loading: () => Stream.value(['Wszystkie', 'Wspólne', 'Prywatne']),
-    error: (_, __) => Stream.value(['Wszystkie', 'Wspólne', 'Prywatne']),
+    error: (_, _) => Stream.value(['Wszystkie', 'Wspólne', 'Prywatne']),
   );
 }
 
@@ -244,6 +244,27 @@ Future<void> deleteHabit(DeleteHabitRef ref, String habitId) async {
     print('[habitProvider.deleteHabit] ✅ Habit deleted');
   } catch (e) {
     print('[habitProvider.deleteHabit] ❌ Error: $e');
+    rethrow;
+  }
+}
+
+/// FutureProvider for updating a habit.
+@riverpod
+Future<Habit> updateHabit(UpdateHabitRef ref, Habit habit) async {
+  print('[habitProvider.updateHabit] Called for habitId: ${habit.id}');
+
+  try {
+    final habitRepo = ref.watch(habitRepositoryProvider);
+    final updated = await habitRepo.updateHabit(habit);
+
+    // Invalidate related providers to refresh UI
+    ref.invalidate(habitsListProvider);
+    ref.invalidate(uniqueCategoriesProvider);
+
+    print('[habitProvider.updateHabit] ✅ Habit updated: ${habit.id}');
+    return updated;
+  } catch (e) {
+    print('[habitProvider.updateHabit] ❌ Error: $e');
     rethrow;
   }
 }

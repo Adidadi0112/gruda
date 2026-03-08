@@ -40,7 +40,7 @@ Future<Profile?> currentProfile(CurrentProfileRef ref) async {
       await Future.delayed(const Duration(milliseconds: 100));
     },
     loading: () async {},
-    error: (_, __) async {},
+    error: (_, _) async {},
   );
 
   final authRepo = ref.watch(authRepositoryProvider);

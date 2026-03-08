@@ -25,7 +25,7 @@ final authStateProvider = AutoDisposeStreamProvider<AuthState>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AuthStateRef = AutoDisposeStreamProviderRef<AuthState>;
-String _$currentProfileHash() => r'1dfc55855dec0d0f8dadb78f8c29a86ced6f4204';
+String _$currentProfileHash() => r'f682e19250d922961e04fc048f69de4ddfded465';
 
 /// FutureProvider for the current user's profile.
 /// Re-fetches whenever the auth state changes (user login/logout).

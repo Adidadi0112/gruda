@@ -15,6 +15,12 @@ abstract class TaskRepository {
     required bool isHousehold,
   });
 
+  /// Update an existing task.
+  Future<void> updateTask(TaskItem task);
+
+  /// Delete a task by ID.
+  Future<void> deleteTask(String taskId);
+
   /// Toggle a task's completion status.
   Future<void> toggleTaskCompletion(String taskId, bool isCompleted);
 }

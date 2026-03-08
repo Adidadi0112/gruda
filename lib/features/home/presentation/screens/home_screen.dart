@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-import '../../../../core/providers/supabase_provider.dart';
-import '../../../auth/data/auth_repository_impl.dart';
-import '../../../auth/presentation/auth_provider.dart';
 import '../../../habit/presentation/habit_provider.dart';
 import '../../../task/domain/task_item.dart';
 import '../../../task/presentation/task_provider.dart';
@@ -64,7 +61,7 @@ class CompactTaskTile extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
-              task.isHousehold ? 'Household' : 'Personal',
+              task.isHousehold ? 'Wspólne' : 'Osobiste',
               style: theme.textTheme.labelSmall?.copyWith(
                 color: theme.colorScheme.secondary,
                 fontWeight: FontWeight.w500,
@@ -80,41 +77,6 @@ class CompactTaskTile extends StatelessWidget {
 /// HomeScreen - Main Habit Tracker screen with dynamic categories.
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
-
-  Future<void> _handleSignOut(WidgetRef ref) async {
-    try {
-      print('[HomeScreen] User tapped sign out');
-      final supabase = ref.read(supabaseProvider);
-      final authRepo = AuthRepositoryImpl(supabase);
-      print('[HomeScreen] Calling signOut...');
-      await authRepo.signOut();
-      print(
-        '[HomeScreen] ✅ Sign out completed - Invalidating all user providers',
-      );
-
-      // Invalidate ALL user-related providers to clear cached data
-      print('[HomeScreen] 🗑️ Clearing auth state...');
-      ref.invalidate(currentProfileProvider);
-
-      print('[HomeScreen] 🗑️ Clearing habit data...');
-      ref.invalidate(habitsListProvider);
-      ref.invalidate(uniqueCategoriesProvider);
-      ref.invalidate(availableHabitFiltersProvider);
-      ref.invalidate(globalActiveFilterProvider);
-      ref.invalidate(filteredHabitsProvider);
-
-      print('[HomeScreen] 🗑️ Clearing task data...');
-      ref.invalidate(todayTasksProviderProvider);
-      ref.invalidate(filteredTasksProvider);
-
-      print(
-        '[HomeScreen] ✅ All user data cleared - Router will redirect to /login',
-      );
-      // Router will automatically redirect to /login when auth state changes
-    } catch (e) {
-      print('[HomeScreen] ❌ Error during sign out: $e');
-    }
-  }
 
   void _showAddHabitModal(BuildContext context) {
     showModalBottomSheet(
@@ -138,23 +100,13 @@ class HomeScreen extends ConsumerWidget {
       backgroundColor: theme.colorScheme.surface,
       appBar: AppBar(
         title: Text(
-          'Dashboard',
+          'Kokpit',
           style: theme.textTheme.headlineSmall?.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
         elevation: 0,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: IconButton(
-              icon: Icon(LucideIcons.logOut),
-              onPressed: () => _handleSignOut(ref),
-              tooltip: 'Sign Out',
-            ),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -170,7 +122,7 @@ class HomeScreen extends ConsumerWidget {
                     horizontal: 12,
                     vertical: 8,
                   ),
-                  separatorBuilder: (_, __) => const SizedBox(width: 8),
+                  separatorBuilder: (_, _) => const SizedBox(width: 8),
                   itemCount: filters.length,
                   itemBuilder: (context, index) {
                     final filter = filters[index];
@@ -201,7 +153,7 @@ class HomeScreen extends ConsumerWidget {
                 height: 50,
                 child: Center(
                   child: Text(
-                    'Error loading filters',
+                    'Błąd ładowania filtrów',
                     style: theme.textTheme.bodySmall,
                   ),
                 ),
@@ -234,7 +186,7 @@ class HomeScreen extends ConsumerWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              'Dzisiejsze Zadania (${totalCount - completedCount}/${totalCount})',
+                              'Dzisiejsze Zadania (${totalCount - completedCount}/$totalCount)',
                               style: theme.textTheme.titleMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
@@ -270,8 +222,8 @@ class HomeScreen extends ConsumerWidget {
                           child: Center(
                             child: Text(
                               hideCompleted && totalCount > 0
-                                  ? 'All tasks completed!'
-                                  : 'No tasks for today',
+                                  ? 'Wszystkie zadania ukończone!'
+                                  : 'Brak zadań na dzisiaj',
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 color: theme.colorScheme.secondary,
                               ),
@@ -312,7 +264,7 @@ class HomeScreen extends ConsumerWidget {
               error: (error, stack) => Padding(
                 padding: const EdgeInsets.all(16),
                 child: Text(
-                  'Error loading tasks',
+                  'Błąd ładowania zadań',
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.error,
                   ),
@@ -337,12 +289,12 @@ class HomeScreen extends ConsumerWidget {
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            'No habits yet',
+                            'Brak nawyków',
                             style: theme.textTheme.headlineSmall,
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Start by adding a new habit',
+                            'Zacznij od dodania nowego nawyku',
                             style: theme.textTheme.bodyMedium?.copyWith(
                               color: theme.colorScheme.secondary,
                             ),
@@ -418,7 +370,7 @@ class HomeScreen extends ConsumerWidget {
               error: (error, stack) => Padding(
                 padding: const EdgeInsets.all(16),
                 child: Text(
-                  'Error loading habits: $error',
+                  'Błąd ładowania nawyków: $error',
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.error,
                   ),
@@ -430,7 +382,7 @@ class HomeScreen extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showAddHabitModal(context),
-        tooltip: 'Add Habit or Task',
+        tooltip: 'Dodaj Nawyk lub Zadanie',
         child: Icon(LucideIcons.plus),
       ),
     );

@@ -60,7 +60,7 @@ class _AddItemBottomSheetState extends ConsumerState<AddHabitBottomSheet> {
   Future<void> _handleAddItem() async {
     final title = _titleController.text.trim();
     if (title.isEmpty) {
-      setState(() => _errorMessage = 'Title is required');
+      setState(() => _errorMessage = 'Tytuł jest wymagany');
       return;
     }
 
@@ -127,7 +127,7 @@ class _AddItemBottomSheetState extends ConsumerState<AddHabitBottomSheet> {
           children: [
             // Header
             Text(
-              'Add Nawyk / Zadanie',
+              'Dodaj Nawyk / Zadanie',
               style: theme.textTheme.headlineMedium,
               textAlign: TextAlign.center,
             ),
@@ -163,11 +163,11 @@ class _AddItemBottomSheetState extends ConsumerState<AddHabitBottomSheet> {
               controller: _titleController,
               decoration: InputDecoration(
                 labelText: _itemType == ItemType.habit
-                    ? 'Habit Name'
-                    : 'Task Name',
+                    ? 'Nazwa nawyku'
+                    : 'Nazwa zadania',
                 hintText: _itemType == ItemType.habit
-                    ? 'e.g., Morning Run, Read 10 pages'
-                    : 'e.g., Buy groceries',
+                    ? 'np. Poranna biegaczka, Czytaj 10 stron'
+                    : 'np. Kup artykuły spożywcze',
               ),
               enabled: !_isLoading,
             ),
@@ -178,8 +178,8 @@ class _AddItemBottomSheetState extends ConsumerState<AddHabitBottomSheet> {
               TextFormField(
                 controller: _descriptionController,
                 decoration: InputDecoration(
-                  labelText: 'Description (optional)',
-                  hintText: 'Add more details about this habit',
+                  labelText: 'Opis (opcjonalny)',
+                  hintText: 'Dodaj więcej szczegółów o tym nawyku',
                 ),
                 maxLines: 3,
                 minLines: 1,
@@ -192,11 +192,14 @@ class _AddItemBottomSheetState extends ConsumerState<AddHabitBottomSheet> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Category (optional)', style: theme.textTheme.labelMedium),
+                Text(
+                  'Kategoria (opcjonalnie)',
+                  style: theme.textTheme.labelMedium,
+                ),
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _categoryController,
-                  decoration: InputDecoration(hintText: 'e.g., Work, Shopping'),
+                  decoration: InputDecoration(hintText: 'np. Praca, Zakupy'),
                   enabled: !_isLoading,
                   onChanged: (value) {
                     setState(() {}); // Trigger rebuild for suggestions
@@ -228,14 +231,14 @@ class _AddItemBottomSheetState extends ConsumerState<AddHabitBottomSheet> {
 
             // Icon Selection Grid (Habit only)
             if (_itemType == ItemType.habit) ...[
-              Text('Icon (optional)', style: theme.textTheme.labelMedium),
+              Text('Ikona (opcjonalnie)', style: theme.textTheme.labelMedium),
               const SizedBox(height: 8),
               SizedBox(
                 height: 50,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemCount: IconMapping.availableIcons.length,
-                  separatorBuilder: (_, __) => const SizedBox(width: 4),
+                  separatorBuilder: (_, _) => const SizedBox(width: 4),
                   itemBuilder: (context, index) {
                     final iconKey = IconMapping.availableIcons[index];
                     final isSelected = _selectedIconName == iconKey;
@@ -305,7 +308,10 @@ class _AddItemBottomSheetState extends ConsumerState<AddHabitBottomSheet> {
               Row(
                 children: [
                   Expanded(
-                    child: Text('Due Date', style: theme.textTheme.bodyMedium),
+                    child: Text(
+                      'Data realizacji',
+                      style: theme.textTheme.bodyMedium,
+                    ),
                   ),
                   TextButton(
                     onPressed: _isLoading
@@ -357,7 +363,7 @@ class _AddItemBottomSheetState extends ConsumerState<AddHabitBottomSheet> {
                 Expanded(
                   child: OutlinedButton(
                     onPressed: _isLoading ? null : () => Navigator.pop(context),
-                    child: const Text('Cancel'),
+                    child: const Text('Anuluj'),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -377,8 +383,8 @@ class _AddItemBottomSheetState extends ConsumerState<AddHabitBottomSheet> {
                           )
                         : Text(
                             _itemType == ItemType.habit
-                                ? 'Add Habit'
-                                : 'Add Task',
+                                ? 'Dodaj Nawyk'
+                                : 'Dodaj Zadanie',
                           ),
                   ),
                 ),

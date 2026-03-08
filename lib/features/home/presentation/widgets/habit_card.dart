@@ -63,8 +63,8 @@ class HabitCard extends ConsumerWidget {
                     ref.read(completeHabitProvider(habit.id));
                   },
                   tooltip: isCompletedToday
-                      ? 'Completed today'
-                      : 'Mark complete',
+                      ? 'Ukończone dzisiaj'
+                      : 'Oznacz jako ukończone',
                 ),
               ],
             ),
@@ -94,7 +94,7 @@ class HabitCard extends ConsumerWidget {
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      habit.isHousehold ? 'Household' : 'Personal',
+                      habit.isHousehold ? 'Wspólne' : 'Osobiste',
                       style: theme.textTheme.labelSmall?.copyWith(
                         color: theme.colorScheme.secondary,
                       ),
@@ -102,7 +102,7 @@ class HabitCard extends ConsumerWidget {
                   ],
                 ),
                 Text(
-                  'Created ${DateFormat('MMM d').format(habit.createdAt)}',
+                  'Utworzono ${DateFormat('d MMM').format(habit.createdAt)}',
                   style: theme.textTheme.labelSmall?.copyWith(
                     color: theme.colorScheme.secondary,
                   ),
@@ -119,7 +119,7 @@ class HabitCard extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
-                  '✓ Completed today',
+                  '✓ Ukończone dzisiaj',
                   style: theme.textTheme.labelSmall?.copyWith(
                     color: theme.colorScheme.primary,
                   ),

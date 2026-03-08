@@ -72,7 +72,7 @@ class ModernHabitCard extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
-                    habit.isHousehold ? 'Household' : 'Personal',
+                    habit.isHousehold ? 'Wspólne' : 'Osobiste',
                     style: theme.textTheme.labelSmall?.copyWith(
                       color: theme.colorScheme.secondary,
                       fontWeight: FontWeight.w500,

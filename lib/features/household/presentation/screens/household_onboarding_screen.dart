@@ -40,7 +40,7 @@ class _HouseholdOnboardingScreenState
   Future<void> _createHousehold() async {
     final name = _householdNameController.text.trim();
     if (name.isEmpty) {
-      _showError('Please enter a household name');
+      _showError('Proszę wpisać nazwę gospodarstwa');
       return;
     }
 
@@ -78,12 +78,12 @@ class _HouseholdOnboardingScreenState
   Future<void> _joinHousehold() async {
     final code = _inviteCodeController.text.trim().toUpperCase();
     if (code.isEmpty) {
-      _showError('Please enter an invite code');
+      _showError('Proszę wpisać kod zaproszenia');
       return;
     }
 
     if (code.length != 6) {
-      _showError('Invite code must be 6 characters');
+      _showError('Kod zaproszenia musi mieć 6 znaków');
       return;
     }
 
@@ -130,7 +130,10 @@ class _HouseholdOnboardingScreenState
 
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
-      appBar: AppBar(title: Text('Set Up Your Household'), centerTitle: true),
+      appBar: AppBar(
+        title: Text('Skonfiguruj swoje gospodarstwo'),
+        centerTitle: true,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -139,13 +142,13 @@ class _HouseholdOnboardingScreenState
             children: [
               // Header
               Text(
-                'Let\'s get started!',
+                'Zaczynajmy!',
                 style: theme.textTheme.headlineSmall,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
               Text(
-                'Create a new household or join an existing one',
+                'Utwórz nowe gospodarstwo lub dołącz do istniejącego',
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.secondary,
                 ),
@@ -191,7 +194,7 @@ class _HouseholdOnboardingScreenState
                           const SizedBox(width: 12),
                           Expanded(
                             child: Text(
-                              'Create New Household',
+                              'Utwórz nowe gospodarstwo',
                               style: theme.textTheme.headlineSmall,
                             ),
                           ),
@@ -199,7 +202,7 @@ class _HouseholdOnboardingScreenState
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'Start a new household and invite your family members',
+                        'Zacznij nowe gospodarstwo i zaproś członków rodziny',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.secondary,
                         ),
@@ -208,8 +211,8 @@ class _HouseholdOnboardingScreenState
                       TextFormField(
                         controller: _householdNameController,
                         decoration: InputDecoration(
-                          labelText: 'Household Name',
-                          hintText: 'e.g., Smith Family',
+                          labelText: 'Nazwa gospodarstwa',
+                          hintText: 'np. Rodzina Kowalskich',
                         ),
                         enabled: !_isLoadingCreate && !_isLoadingJoin,
                       ),
@@ -231,7 +234,7 @@ class _HouseholdOnboardingScreenState
                                     ),
                                   ),
                                 )
-                              : const Text('Create'),
+                              : const Text('Utwórz'),
                         ),
                       ),
                     ],
@@ -257,7 +260,7 @@ class _HouseholdOnboardingScreenState
                           const SizedBox(width: 12),
                           Expanded(
                             child: Text(
-                              'Join Existing Household',
+                              'Dołącz do istniejącego gospodarstwa',
                               style: theme.textTheme.headlineSmall,
                             ),
                           ),
@@ -265,7 +268,7 @@ class _HouseholdOnboardingScreenState
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'Join your family\'s household with an invite code',
+                        'Dołącz do gospodarstwa rodziny za pomocą kodu zaproszenia',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.secondary,
                         ),
@@ -274,9 +277,9 @@ class _HouseholdOnboardingScreenState
                       TextFormField(
                         controller: _inviteCodeController,
                         decoration: InputDecoration(
-                          labelText: 'Invite Code',
-                          hintText: 'e.g., ABC123',
-                          helperText: '6 characters',
+                          labelText: 'Kod zaproszenia',
+                          hintText: 'np. ABC123',
+                          helperText: '6 znaków',
                         ),
                         maxLength: 6,
                         textCapitalization: TextCapitalization.characters,
@@ -313,7 +316,7 @@ class _HouseholdOnboardingScreenState
                                     ),
                                   ),
                                 )
-                              : const Text('Join'),
+                              : const Text('Dołącz'),
                         ),
                       ),
                     ],

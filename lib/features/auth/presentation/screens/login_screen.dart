@@ -49,7 +49,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         // Validate display name
         if (_displayNameController.text.trim().isEmpty) {
           setState(() {
-            _errorMessage = 'Display name is required';
+            _errorMessage = 'Nazwa wyświetlana jest wymagana';
             _isLoading = false;
           });
           return;
@@ -100,15 +100,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             children: [
               // Header
               Text(
-                _isSignUp ? 'Create Account' : 'Welcome Back',
+                _isSignUp ? 'Utwórz konto' : 'Witaj ponownie',
                 style: theme.textTheme.headlineLarge,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
               Text(
                 _isSignUp
-                    ? 'Set up your account to manage your household'
-                    : 'Sign in to your account',
+                    ? 'Skonfiguruj swoje konto, aby zarządzać gospodarstwem'
+                    : 'Zaloguj się na swoje konto',
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.secondary,
                 ),
@@ -121,7 +121,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 controller: _emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
-                  hintText: 'you@example.com',
+                  hintText: 'ty@example.com',
                 ),
                 keyboardType: TextInputType.emailAddress,
                 enabled: !_isLoading,
@@ -133,8 +133,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 TextFormField(
                   controller: _displayNameController,
                   decoration: InputDecoration(
-                    labelText: 'Display Name',
-                    hintText: 'Your name',
+                    labelText: 'Nazwa wyświetlana',
+                    hintText: 'Twoje imię',
                   ),
                   enabled: !_isLoading,
                 ),
@@ -145,7 +145,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               TextFormField(
                 controller: _passwordController,
                 decoration: InputDecoration(
-                  labelText: 'Password',
+                  labelText: 'Hasło',
                   hintText: '••••••••',
                 ),
                 obscureText: true,
@@ -188,7 +188,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           ),
                         ),
                       )
-                    : Text(_isSignUp ? 'Create Account' : 'Sign In'),
+                    : Text(_isSignUp ? 'Utwórz konto' : 'Zaloguj się'),
               ),
               const SizedBox(height: 16),
 
@@ -205,8 +205,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         },
                   child: Text(
                     _isSignUp
-                        ? 'Already have an account? Sign In'
-                        : 'Don\'t have an account? Sign Up',
+                        ? 'Masz już konto? Zaloguj się'
+                        : 'Nie masz konta? Zarejestruj się',
                     style: theme.textTheme.labelLarge,
                   ),
                 ),

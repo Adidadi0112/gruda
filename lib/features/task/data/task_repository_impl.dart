@@ -109,6 +109,44 @@ class TaskRepositoryImpl implements TaskRepository {
     }
   }
 
+  @override
+  Future<void> updateTask(TaskItem task) async {
+    print('[updateTask] Updating task: ${task.id}');
+    try {
+      final dueDateStr = task.dueDate.toIso8601String().split(
+        'T',
+      )[0]; // Format: YYYY-MM-DD
+
+      await _supabase
+          .from('tasks')
+          .update({
+            'title': task.title,
+            'category': task.category,
+            'due_date': dueDateStr,
+            'is_household': task.isHousehold,
+          })
+          .eq('id', task.id);
+
+      print('[updateTask] ✅ Task updated successfully');
+    } catch (e) {
+      print('[updateTask] ❌ Error updating task: $e');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> deleteTask(String taskId) async {
+    print('[deleteTask] Deleting task: $taskId');
+    try {
+      await _supabase.from('tasks').delete().eq('id', taskId);
+
+      print('[deleteTask] ✅ Task deleted successfully');
+    } catch (e) {
+      print('[deleteTask] ❌ Error deleting task: $e');
+      rethrow;
+    }
+  }
+
   /// Helper to convert JSON from Supabase to TaskItem domain model.
   TaskItem _taskFromJson(Map<String, dynamic> json) {
     return TaskItem(
